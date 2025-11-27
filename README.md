@@ -1,4 +1,7 @@
-# SYRIATEL CUSTOMER PREDICTION
+# SYRIATEL CUSTOMER CHURN PREDICTION
+
+![Kastomaaa](https://media.istockphoto.com/id/530538787/photo/customer-engagement.jpg?s=1024x1024&w=is&k=20&c=dztp7HBDXxSlszUrC63IWjI4MY0YJqfdA4U7-AbNamg=)
+
 
 ## Executive Summary
 
