@@ -123,12 +123,13 @@ With the ability to pinpoint high-risk customers, SyriaTel can strategically all
 ## Tools and Technologies
 
 * Python
-* Pandas & NumPy
+* Pandas and NumPy
 * Scikit-learn
-* XGBoost & CatBoost
+* Ensemble Methods
 * Optuna
 * Matplotlib & Seaborn
 * Imbalanced-learn
+* GridSearchCV and RandomizedSearchCV
 
 ## Author
 
