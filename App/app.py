@@ -28,7 +28,6 @@ st.markdown("""
 .stApp {
     background: linear-gradient(135deg, #0f2027 0%, #2c5364 50%, #203a43 100%);
 }
-
 /* Neumorphic-style cards */
 .metric-card {
     background: rgba(255, 255, 255, 0.9);
@@ -37,20 +36,17 @@ st.markdown("""
     box-shadow: 8px 8px 16px rgba(0,0,0,0.15), -8px -8px 16px rgba(255,255,255,0.2);
     margin: 10px 0;
 }
-
 /* Header styling */
 h1, h2, h3 {
     color: white !important;
     font-weight: 700 !important;
 }
-
 /* Expander styling */
 .streamlit-expanderHeader {
     background: rgba(255,255,255,0.9) !important;
     border-radius: 10px !important;
     font-weight: 600 !important;
 }
-
 /* Button styling */
 .stButton>button {
     width: 100%;
@@ -68,13 +64,11 @@ h1, h2, h3 {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
 }
-
 /* Metric styling */
 [data-testid="stMetricValue"] {
     font-size: 28px;
     font-weight: 700;
 }
-
 /* Info boxes */
 .stAlert {
     border-radius: 10px;
@@ -83,15 +77,17 @@ h1, h2, h3 {
 </style>
 """, unsafe_allow_html=True)
 
-# Load model
+# --------------------------
+# Load preprocessor and model separately
+# --------------------------
 @st.cache_resource
-def load_model():
-    # Get the directory of this script
+def load_objects():
     base_dir = os.path.dirname(__file__)
-    model_path = os.path.join(base_dir, "churn_pipeline.pkl")
-    return joblib.load(model_path)
+    preprocessor = joblib.load(os.path.join(base_dir, "preprocessor.pkl"))
+    model = joblib.load(os.path.join(base_dir, "catboost_model.pkl"))
+    return preprocessor, model
 
-model = load_model()
+preprocessor, model = load_objects()
 
 # Header
 st.markdown("""
@@ -101,7 +97,9 @@ SyriaTel Churn Intelligence Platform
 <p style='text-align:center; color:white; font-size:18px;'>Customer Retention Analytics</p>
 """, unsafe_allow_html=True)
 
+# --------------------------
 # Customer Input Section
+# --------------------------
 with st.expander("👤 Customer Profile & Account Details", expanded=True):
     col1, col2, col3, col4 = st.columns(4)
     with col1:
@@ -133,7 +131,9 @@ with st.expander("🌐 International Usage", expanded=False):
 
 st.markdown("<br>", unsafe_allow_html=True)
 
+# --------------------------
 # Predict Button
+# --------------------------
 if st.button("🔮 Analyze Churn Risk", type="primary"):
     custserv_per_month = (customer_service_calls / account_length) * 30 if account_length>0 else 0
 
@@ -154,10 +154,16 @@ if st.button("🔮 Analyze Churn Risk", type="primary"):
         "custserv_per_month": custserv_per_month
     }])
 
-    proba = model.predict_proba(df)[0][1]
+    # Transform input with preprocessor
+    X_transformed = preprocessor.transform(df)
+
+    # Predict
+    proba = model.predict_proba(X_transformed)[0][1]
     pred = int(proba >= 0.5)
 
+    # --------------------------
     # Churn Gauge
+    # --------------------------
     fig_gauge = go.Figure(go.Indicator(
         mode="gauge+number+delta",
         value=proba*100,
@@ -202,7 +208,9 @@ if st.button("🔮 Analyze Churn Risk", type="primary"):
 
     st.markdown("<br>", unsafe_allow_html=True)
 
+    # --------------------------
     # Usage Charts
+    # --------------------------
     st.markdown("### 📈 Usage Analytics")
     col1, col2 = st.columns(2)
     usage_df = pd.DataFrame({
@@ -232,7 +240,9 @@ if st.button("🔮 Analyze Churn Risk", type="primary"):
                            margin=dict(l=40, r=40, t=80, b=40))
         st.plotly_chart(fig2, use_container_width=True)
 
+    # --------------------------
     # Retention Recommendations
+    # --------------------------
     st.markdown("### 🎯 Retention Strategy")
     if pred==1:
         st.error("⚠️ **URGENT ACTION REQUIRED** - High churn risk detected")
@@ -263,7 +273,9 @@ if st.button("🔮 Analyze Churn Risk", type="primary"):
         - 🌟 **Referral Program**: Encourage customer advocacy
         """)
 
+    # --------------------------
     # Customer Profile Summary
+    # --------------------------
     with st.expander("📋 Customer Profile", expanded=False):
         col1, col2, col3 = st.columns(3)
         with col1:
