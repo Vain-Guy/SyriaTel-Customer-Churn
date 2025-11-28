@@ -7,3 +7,6 @@ xgboost
 joblib
 imbalanced-learn
 optuna
+fastapi
+uvicorn
+pydantic
