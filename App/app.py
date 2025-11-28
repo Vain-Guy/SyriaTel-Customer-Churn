@@ -82,9 +82,8 @@ h1, h2, h3 {
 # --------------------------
 @st.cache_resource
 def load_objects():
-    base_dir = os.path.dirname(__file__)
-    preprocessor = joblib.load(os.path.join(base_dir, "preprocessor.pkl"))
-    model = joblib.load(os.path.join(base_dir, "catboost_model.pkl"))
+    preprocessor = joblib.load("preprocessor.pkl")
+    model = joblib.load("catboost_model.pkl")
     return preprocessor, model
 
 preprocessor, model = load_objects()
