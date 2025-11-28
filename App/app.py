@@ -12,6 +12,7 @@ from sklearn.pipeline import Pipeline
 from catboost.core import CatBoostClassifier
 from xgboost import XGBClassifier
 from imblearn.over_sampling import SMOTE
+from pathlib import Path
 
 # Page config
 st.set_page_config(
@@ -82,9 +83,9 @@ h1, h2, h3 {
 # --------------------------
 @st.cache_resource
 def load_objects():
-    base = os.path.dirname(__file__)
-    preprocessor = joblib.load(os.path.join(base, "preprocessor.pkl"))
-    model = joblib.load(os.path.join(base, "catboost_model.pkl"))
+    base = Path(__file__).resolve().parent
+    preprocessor = joblib.load(base / "preprocessor.pkl")
+    model = joblib.load(base / "catboost_model.pkl")
     return preprocessor, model
 
 preprocessor, model = load_objects()
