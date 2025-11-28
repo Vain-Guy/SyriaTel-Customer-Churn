@@ -82,8 +82,17 @@ h1, h2, h3 {
 # --------------------------
 @st.cache_resource
 def load_objects():
-    preprocessor = joblib.load("preprocessor.pkl")
-    model = joblib.load("catboost_model.pkl")
+    # Get the directory where this script (app.py) resides
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Build full paths to your pickle files
+    preprocessor_path = os.path.join(base_dir, "preprocessor.pkl")
+    model_path = os.path.join(base_dir, "catboost_model.pkl")
+    
+    # Load the objects
+    preprocessor = joblib.load(preprocessor_path)
+    model = joblib.load(model_path)
+    
     return preprocessor, model
 
 preprocessor, model = load_objects()
