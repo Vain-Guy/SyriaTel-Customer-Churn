@@ -4,6 +4,15 @@ import joblib
 import os
 import plotly.graph_objects as go
 
+# Import all libraries used in your pipeline
+import numpy as np
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from catboost import CatBoostClassifier
+from xgboost import XGBClassifier
+from imblearn.over_sampling import SMOTE  
+
 # Page config
 st.set_page_config(
     page_title="SyriaTel Churn Intelligence",
