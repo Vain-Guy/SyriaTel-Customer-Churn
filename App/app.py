@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import os
 import plotly.graph_objects as go
 
 # Page config
@@ -76,7 +77,10 @@ h1, h2, h3 {
 # Load model
 @st.cache_resource
 def load_model():
-    return joblib.load("churn_pipeline.pkl")
+    # Get the directory of this script
+    base_dir = os.path.dirname(__file__)
+    model_path = os.path.join(base_dir, "churn_pipeline.pkl")
+    return joblib.load(model_path)
 
 model = load_model()
 
