@@ -11,7 +11,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from catboost.core import CatBoostClassifier
 from xgboost import XGBClassifier
-from imblearn.over_sampling import SMOTE  
+from imblearn.over_sampling import SMOTE
 
 # Page config
 st.set_page_config(
