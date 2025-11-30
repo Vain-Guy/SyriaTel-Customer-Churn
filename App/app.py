@@ -188,7 +188,7 @@ if st.button("🔮 Analyze Churn Risk", type="primary"):
     # --------------------------
     # KPIs
     # --------------------------
-    st.markdown("### 📊 Key Performance Indicators")
+    st.markdown("### Key Performance Indicators")
     total_usage = total_day_mins + total_eve_mins + total_night_mins
     kpi_data = [
         {"label":"📞 Total Customer Service Calls", "value":customer_service_calls, "delta":f"{custserv_per_month:.1f}/month", "color":"inverse" if customer_service_calls>3 else "normal"},
@@ -212,7 +212,7 @@ if st.button("🔮 Analyze Churn Risk", type="primary"):
     # --------------------------
     # Usage Charts
     # --------------------------
-    st.markdown("### 📈 Usage Analytics")
+    st.markdown("### Usage Analytics")
     col1, col2 = st.columns(2)
     usage_df = pd.DataFrame({
         "Period":["Day","Evening","Night","International"],
@@ -244,7 +244,7 @@ if st.button("🔮 Analyze Churn Risk", type="primary"):
     # --------------------------
     # Retention Recommendations
     # --------------------------
-    st.markdown("### 🎯 Retention Strategy")
+    st.markdown("### Retention Strategy")
     if pred==1:
         st.error("⚠️ **URGENT ACTION REQUIRED** - High churn risk detected")
         actions=[]
@@ -284,22 +284,22 @@ if st.button("🔮 Analyze Churn Risk", type="primary"):
             **Account Information**
             - State: `{state}`
             - Tenure: `{account_length}` days
-            - Int'l Plan: `{"Active" if intl_plan else "Inactive"}`
-            - Voicemail: `{"Active" if voicemail_plan else "Inactive"}`
+            - International Plan: `{"Active" if intl_plan else "Inactive"}`
+            - Voicemail Plan: `{"Active" if voicemail_plan else "Inactive"}`
             """)
         with col2:
             st.markdown(f"""
             **Usage Patterns**
-            - Day: `{total_day_mins:.0f}` min / `{total_day_calls}` calls
-            - Evening: `{total_eve_mins:.0f}` min / `{total_eve_calls}` calls
-            - Night: `{total_night_mins:.0f}` min / `{total_night_calls}` calls
+            - Total Calls Made during the Day: `{total_day_mins:.0f}` min / `{total_day_calls}` calls
+            - Total Calls Made in the Evening: `{total_eve_mins:.0f}` min / `{total_eve_calls}` calls
+            - Total Calls Made at Night: `{total_night_mins:.0f}` min / `{total_night_calls}` calls
             """)
         with col3:
             st.markdown(f"""
             **Support History**
-            - Total Calls: `{customer_service_calls}`
-            - Monthly Rate: `{custserv_per_month:.2f}`
-            - Int'l Usage: `{total_intl_mins:.0f}` min / `{total_intl_calls}` calls
+            - Total Customer Service Calls Made: `{customer_service_calls}`
+            - Total Customer Service Calls Made per Month: `{custserv_per_month:.2f}`
+            - International Usage: `{total_intl_mins:.0f}` min / `{total_intl_calls}` calls
             """)
 
 st.markdown("<br><br>", unsafe_allow_html=True)
